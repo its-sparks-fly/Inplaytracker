@@ -839,6 +839,8 @@ function inplaytracker_editpost()
 		  	$partners = htmlspecialchars_uni($mybb->get_input('partners'));
 				if($mybb->settings['inplaytracker_timeformat'] == "0") {
         	$ipdate = strtotime($mybb->get_input('day')." ".$mybb->get_input('month')." ".$mybb->get_input('year'));
+				}else {
+					$ipdate = $mybb->get_input('day')." ".$mybb->get_input('month')." ".$mybb->get_input('year');
 				}
 				$iport = htmlspecialchars_uni($mybb->get_input('iport'));
 				$ipdaytime = htmlspecialchars_uni($mybb->get_input('ipdaytime'));
@@ -897,7 +899,7 @@ function inplaytracker_editpost()
 			else {
 				for($i = 1 ; $i < 32 ; $i++) {
 					$checked_day = "";
-					$active_day = $mybb->get_input('day');
+					$active_day = explode(" ", $ipdate)[0];
 					if($active_day == $i) {
 						$checked_day = "selected=\"selected\"";
 					}
@@ -907,14 +909,14 @@ function inplaytracker_editpost()
 				$months = explode(", ", $mybb->settings['inplaytracker_months']);
 				foreach($months as $month) {
 					$checked_month = "";
-					$active_month = $mybb->get_input('month');
+					$active_month = explode(" ", $ipdate)[1];
 					if($active_month == $month) {
 						$checked_month = "selected=\"selected\"";
 					}
 					$month_bit .= "<option value=\"$month\" {$checked_month}>$month</option>";
 				}
 
-				$year = $mybb->get_input('year');
+				$year = explode(" ", $ipdate)[2];
 			}
 
 			$private = array("-1" => "{$lang->inplaytracker_closed}", "0" => "{$lang->inplaytracker_halfopen}", "1" => "{$lang->inplaytracker_open}");
